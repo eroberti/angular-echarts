@@ -1,0 +1,7 @@
+
+tr[ng-reflect-ng-style] {
+	transition: background 0.2s, color 0.2s;
+}
+tr[ng-reflect-ng-style]:hover {
+	filter: brightness(0.97);
+}

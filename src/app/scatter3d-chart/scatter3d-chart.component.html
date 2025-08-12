@@ -1,0 +1,95 @@
+
+<div style="display: flex; align-items: flex-start; width: 100%; max-width: 100vw;">
+  <div [ngStyle]="{
+    'height': '500px',
+    'background': theme === 'dark' ? '#110c2a' : '#fff'
+  }">
+    <div [ngStyle]="{
+      'background': theme === 'dark' ? '#110c2a' : '#fff',
+      'border': theme === 'dark' ? '1.5px solid #888' : '1.5px solid #bbb',
+      'color': theme === 'dark' ? '#fff' : '#222',
+      'min-width': '170px',
+      'border-radius': '0',
+      'padding': '12px',
+      'margin': '0'
+    }">
+      <div style="font-weight: bold; margin-bottom: 8px;">Dogleg</div>
+      <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="display:inline-block;width:18px;height:18px;background:#08306B;margin-right:8px;border-radius:3px;"></span>
+        <span>&lt; 0.46</span>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="display:inline-block;width:18px;height:18px;background:#4292C6;margin-right:8px;border-radius:3px;"></span>
+        <span>0.46 - 0.93</span>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="display:inline-block;width:18px;height:18px;background:#66C2A4;margin-right:8px;border-radius:3px;"></span>
+        <span>0.93 - 1.4</span>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="display:inline-block;width:18px;height:18px;background:#238B45;margin-right:8px;border-radius:3px;"></span>
+        <span>1.4 - 1.9</span>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="display:inline-block;width:18px;height:18px;background:#FFD700;margin-right:8px;border-radius:3px;"></span>
+        <span>1.9 - 2.3</span>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="display:inline-block;width:18px;height:18px;background:#FF8C00;margin-right:8px;border-radius:3px;"></span>
+        <span>2.3 - 2.8</span>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="display:inline-block;width:18px;height:18px;background:#B22222;margin-right:8px;border-radius:3px;"></span>
+        <span>&ge; 2.8</span>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1; min-width:0;">
+    <div #chartContainer [ngStyle]="{
+      'width': '100%',
+      'height': '500px',
+      'background': theme === 'dark' ? '#23223a' : '#fff',
+      'border': 'none',
+      'border-radius': '0'
+    }"></div>
+  </div>
+</div>
+<div style="margin-top: 24px; width: 100%;">
+	<div style="width: 100%; overflow-x: auto;">
+		<table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+			<thead style="display: block; width: 100%; background: #f8f8f8;">
+				<tr style="display: flex; width: 100%;">
+					<th style="flex: 1 0 80px; min-width: 80px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">Sequence</th>
+					<th style="flex: 1 0 110px; min-width: 110px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">MD</th>
+					<th style="flex: 1 0 70px; min-width: 70px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">Inc</th>
+					<th style="flex: 1 0 70px; min-width: 70px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">Azi</th>
+					<th style="flex: 1 0 110px; min-width: 110px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">TVD</th>
+					<th style="flex: 1 0 70px; min-width: 70px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">N/S</th>
+					<th style="flex: 1 0 70px; min-width: 70px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">E/W</th>
+					<th style="flex: 1 0 80px; min-width: 80px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">Dogleg</th>
+				</tr>
+			</thead>
+			<tbody style="display: block; max-height: 320px; overflow-y: auto; width: 100%;">
+				<tr *ngFor="let i of getTableIndexes(); let idx = index"
+						(click)="onRowClick(i)"
+						[ngStyle]="{
+							'background': selectedIndex === i
+								? (surveyData.dogleg[i] > 2.8 ? '#c20000' : '#1976d2')
+								: (surveyData.dogleg[i] > 2.8 ? '#ffdddd' : 'inherit'),
+							'color': selectedIndex === i ? '#fff' : 'inherit',
+							'cursor': 'pointer'
+						}"
+						style="display: flex; width: 100%; transition: background 0.2s;">
+					<td style="flex: 1 0 80px; min-width: 80px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.sequenze[i] }}</td>
+					<td style="flex: 1 0 110px; min-width: 110px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.md[i] }}</td>
+					<td style="flex: 1 0 70px; min-width: 70px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.inc[i] }}</td>
+					<td style="flex: 1 0 70px; min-width: 70px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.azi[i] }}</td>
+					<td style="flex: 1 0 110px; min-width: 110px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.tvd[i] }}</td>
+					<td style="flex: 1 0 70px; min-width: 70px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.ns[i] }}</td>
+					<td style="flex: 1 0 70px; min-width: 70px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.ew[i] }}</td>
+					<td style="flex: 1 0 80px; min-width: 80px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.dogleg[i] }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
