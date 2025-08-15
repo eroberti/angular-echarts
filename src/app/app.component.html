@@ -1,8 +1,2 @@
-<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-	<label for="theme-select">Tema:</label>
-	<select id="theme-select" [(ngModel)]="theme" (change)="onThemeChange()">
-		<option value="light">Claro</option>
-		<option value="dark">Oscuro</option>
-	</select>
-</div>
-<app-scatter3d-chart [theme]="theme"></app-scatter3d-chart>
+<!-- Eliminado el select de tema, el control estará en el gráfico -->
+<app-scatter3d-chart></app-scatter3d-chart>

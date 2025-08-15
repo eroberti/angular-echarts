@@ -9,7 +9,7 @@ const surveyData = {
   "dogleg": [0, 0.055, 0.326, 0.355, 1.09, 0, 1.707, 2.973, 2.661, 3.127, 3.171, 2.78, 1.274, 3.254, 0.506, 0.51, 0.788, 0.334, 0.662, 1.017, 0.352, 0.799, 0.85, 0.169, 0.228, 0.047, 0.488, 0.469, 0.617, 0.457, 0.463, 1.165, 1.607, 0.473, 0.754, 0.184, 2.062, 1.577, 2.304, 2.87, 1.367, 0.996, 0.582, 0.119, 0.143, 0.223, 0.289, 0.247, 0.153, 0.248, 0.1, 0.156, 0.212, 0.173, 0.159, 0.285, 0.162, 0.374, 0.29, 0.228, 0.171, 0.233, 0.22, 0.051, 0.268, 0.226, 0.143, 0.256, 0.079],
   "sequenze": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68]
 };
-import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild, Input, OnChanges, SimpleChanges, ViewChildren, QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 // Importar ECharts y el módulo GL
@@ -37,13 +37,13 @@ export class Scatter3dChartComponent implements AfterViewInit, OnChanges, OnDest
 
   selectedIndex: number | null = null;
 
-  // Maneja el click en un punto del gráfico
   onChartClick = (params: any) => {
     if (params && typeof params.dataIndex === 'number') {
       if (this.selectedIndex === params.dataIndex) {
         this.selectedIndex = null;
       } else {
         this.selectedIndex = params.dataIndex;
+        setTimeout(() => this.scrollToSelectedRow(), 0);
       }
       this.renderChart();
     }
@@ -63,14 +63,22 @@ export class Scatter3dChartComponent implements AfterViewInit, OnChanges, OnDest
     // Devuelve los índices de los datos para la tabla
     return Array.from({ length: this.surveyData.sequenze.length }, (_, i) => i);
   }
-  @Input() theme: 'light' | 'dark' = 'light';
+  theme: 'light' | 'dark' = 'light';
+  // Cambia el tema cuando el usuario usa el Slide Toggle
+  onThemeToggle() {
+    this.theme = this.theme === 'dark' ? 'light' : 'dark';
+    this.renderChart();
+  }
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef<HTMLDivElement>;
   private chartInstance: echarts.EChartsType | null = null;
+  @ViewChild('tableBody', { static: false }) tableBody!: ElementRef<HTMLTableSectionElement>;
+  @ViewChildren('rowRef') rowRefs!: QueryList<ElementRef<HTMLTableRowElement>>;
 
   ngAfterViewInit(): void {
     this.renderChart();
     window.addEventListener('resize', this.resizeListener);
   }
+
   ngOnDestroy(): void {
     window.removeEventListener('resize', this.resizeListener);
     if (this.chartInstance) {
@@ -151,6 +159,15 @@ export class Scatter3dChartComponent implements AfterViewInit, OnChanges, OnDest
     this.chartInstance.setOption(option);
     this.chartInstance.off('click');
     this.chartInstance.on('click', this.onChartClick);
+  }
+
+  scrollToSelectedRow() {
+    if (this.selectedIndex !== null && this.rowRefs && this.rowRefs.length > this.selectedIndex) {
+      const row = this.rowRefs.get(this.selectedIndex)?.nativeElement;
+      if (row) {
+        row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
   }
 
   generateData(): any[] {

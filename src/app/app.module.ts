@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { Scatter3dChartComponent } from './scatter3d-chart/scatter3d-chart.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { Scatter3dChartComponent } from './scatter3d-chart/scatter3d-chart.compo
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
