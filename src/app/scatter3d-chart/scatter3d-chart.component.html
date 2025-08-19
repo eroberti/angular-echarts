@@ -1,11 +1,24 @@
-<mat-slide-toggle [checked]="theme === 'dark'" (change)="onThemeToggle()" color="primary" style="margin-bottom: 16px;">
-	Modo oscuro
+<mat-slide-toggle
+  [checked]="theme === 'dark'"
+  (change)="onThemeToggle()"
+  color="primary"
+  style="margin-bottom: 16px"
+>
+  Modo oscuro
 </mat-slide-toggle>
 
 <div class="container-flex">
-  <div [ngClass]="theme === 'dark' ? 'side-panel dark-bg' : 'side-panel light-bg'">
-  <div [ngClass]="theme === 'dark' ? 'legend-panel dark-bg dark-border dark-color' : 'legend-panel light-bg light-border light-color'">
-  <div class="legend-title">Dogleg</div>
+  <div
+    [ngClass]="theme === 'dark' ? 'side-panel dark-bg' : 'side-panel light-bg'"
+  >
+    <div
+      [ngClass]="
+        theme === 'dark'
+          ? 'legend-panel dark-bg dark-border dark-color'
+          : 'legend-panel light-bg light-border light-color'
+      "
+    >
+      <div class="legend-title">Dogleg</div>
       <div class="legend-row">
         <span class="legend-color legend-blue"></span>
         <span>&lt; 0.46</span>
@@ -37,47 +50,224 @@
     </div>
   </div>
   <div class="chart-panel">
-    <div #chartContainer [ngClass]="theme === 'dark' ? 'chart-container dark-bg' : 'chart-container light-bg'"></div>
+    <div
+      #chartContainer
+      [ngClass]="
+        theme === 'dark'
+          ? 'chart-container dark-bg'
+          : 'chart-container light-bg'
+      "
+    ></div>
   </div>
 </div>
-<div style="margin-top: 24px; width: 100%;">
-	<div style="width: 100%; overflow-x: auto;">
-		<table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
-			<thead style="display: block; width: 100%; background: #f8f8f8;">
-				<tr style="display: flex; width: 100%;">
-					<th style="flex: 1 0 80px; min-width: 80px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">Sequence</th>
-					<th style="flex: 1 0 110px; min-width: 110px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">MD</th>
-					<th style="flex: 1 0 70px; min-width: 70px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">Inc</th>
-					<th style="flex: 1 0 70px; min-width: 70px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">Azi</th>
-					<th style="flex: 1 0 110px; min-width: 110px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">TVD</th>
-					<th style="flex: 1 0 70px; min-width: 70px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">N/S</th>
-					<th style="flex: 1 0 70px; min-width: 70px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">E/W</th>
-					<th style="flex: 1 0 80px; min-width: 80px; position: sticky; top: 0; background: #f8f8f8; z-index: 2;">Dogleg</th>
-				</tr>
-			</thead>
-			<tbody #tableBody style="display: block; max-height: 320px; overflow-y: auto; width: 100%;">
-						@for (i of getTableIndexes(); track i) {
-							<tr #rowRef
-									(click)="onRowClick(i)"
-									[ngStyle]="{
-										'background': selectedIndex === i
-												? (surveyData.dogleg[i] > 2.8 ? '#c20000' : '#1976d2')
-												: (surveyData.dogleg[i] > 2.8 ? '#ffdddd' : 'inherit'),
-										'color': selectedIndex === i ? '#fff' : 'inherit',
-										'cursor': 'pointer'
-									}"
-									style="display: flex; width: 100%; transition: background 0.2s;">
-								<td style="flex: 1 0 80px; min-width: 80px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.sequenze[i] }}</td>
-								<td style="flex: 1 0 110px; min-width: 110px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.md[i] }}</td>
-								<td style="flex: 1 0 70px; min-width: 70px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.inc[i] }}</td>
-								<td style="flex: 1 0 70px; min-width: 70px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.azi[i] }}</td>
-								<td style="flex: 1 0 110px; min-width: 110px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.tvd[i] }}</td>
-								<td style="flex: 1 0 70px; min-width: 70px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.ns[i] }}</td>
-								<td style="flex: 1 0 70px; min-width: 70px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.ew[i] }}</td>
-								<td style="flex: 1 0 80px; min-width: 80px; overflow: hidden; text-overflow: ellipsis;">{{ surveyData.dogleg[i] }}</td>
-							</tr>
-						}
-			</tbody>
-		</table>
-	</div>
+<div style="margin-top: 24px; width: 100%">
+  <div style="width: 100%; overflow-x: auto">
+    <table style="width: 100%; border-collapse: collapse; table-layout: fixed">
+      <thead style="display: block; width: 100%; background: #f8f8f8">
+        <tr style="display: flex; width: 100%">
+          <th
+            style="
+              flex: 1 0 80px;
+              min-width: 80px;
+              position: sticky;
+              top: 0;
+              background: #f8f8f8;
+              z-index: 2;
+            "
+          >
+            Sequence
+          </th>
+          <th
+            style="
+              flex: 1 0 110px;
+              min-width: 110px;
+              position: sticky;
+              top: 0;
+              background: #f8f8f8;
+              z-index: 2;
+            "
+          >
+            MD
+          </th>
+          <th
+            style="
+              flex: 1 0 70px;
+              min-width: 70px;
+              position: sticky;
+              top: 0;
+              background: #f8f8f8;
+              z-index: 2;
+            "
+          >
+            Inc
+          </th>
+          <th
+            style="
+              flex: 1 0 70px;
+              min-width: 70px;
+              position: sticky;
+              top: 0;
+              background: #f8f8f8;
+              z-index: 2;
+            "
+          >
+            Azi
+          </th>
+          <th
+            style="
+              flex: 1 0 110px;
+              min-width: 110px;
+              position: sticky;
+              top: 0;
+              background: #f8f8f8;
+              z-index: 2;
+            "
+          >
+            TVD
+          </th>
+          <th
+            style="
+              flex: 1 0 70px;
+              min-width: 70px;
+              position: sticky;
+              top: 0;
+              background: #f8f8f8;
+              z-index: 2;
+            "
+          >
+            N/S
+          </th>
+          <th
+            style="
+              flex: 1 0 70px;
+              min-width: 70px;
+              position: sticky;
+              top: 0;
+              background: #f8f8f8;
+              z-index: 2;
+            "
+          >
+            E/W
+          </th>
+          <th
+            style="
+              flex: 1 0 80px;
+              min-width: 80px;
+              position: sticky;
+              top: 0;
+              background: #f8f8f8;
+              z-index: 2;
+            "
+          >
+            Dogleg
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        #tableBody
+        style="display: block; max-height: 320px; overflow-y: auto; width: 100%"
+      >
+        @for (i of getTableIndexes(); track i) {
+        <tr
+          #rowRef
+          (click)="onRowClick(i)"
+          [ngStyle]="{
+            background:
+              selectedIndex === i
+                ? surveyData.dogleg[i] > 2.8
+                  ? '#c20000'
+                  : '#1976d2'
+                : surveyData.dogleg[i] > 2.8
+                ? '#ffdddd'
+                : 'inherit',
+            color: selectedIndex === i ? '#fff' : 'inherit',
+            cursor: 'pointer'
+          }"
+          style="display: flex; width: 100%; transition: background 0.2s"
+        >
+          <td
+            style="
+              flex: 1 0 80px;
+              min-width: 80px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            {{ surveyData.sequenze[i] }}
+          </td>
+          <td
+            style="
+              flex: 1 0 110px;
+              min-width: 110px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            {{ surveyData.md[i] }}
+          </td>
+          <td
+            style="
+              flex: 1 0 70px;
+              min-width: 70px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            {{ surveyData.inc[i] }}
+          </td>
+          <td
+            style="
+              flex: 1 0 70px;
+              min-width: 70px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            {{ surveyData.azi[i] }}
+          </td>
+          <td
+            style="
+              flex: 1 0 110px;
+              min-width: 110px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            {{ surveyData.tvd[i] }}
+          </td>
+          <td
+            style="
+              flex: 1 0 70px;
+              min-width: 70px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            {{ surveyData.ns[i] }}
+          </td>
+          <td
+            style="
+              flex: 1 0 70px;
+              min-width: 70px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            {{ surveyData.ew[i] }}
+          </td>
+          <td
+            style="
+              flex: 1 0 80px;
+              min-width: 80px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            {{ surveyData.dogleg[i] }}
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
